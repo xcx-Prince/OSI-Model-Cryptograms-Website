@@ -22,6 +22,3 @@ How to run
 Notes and limitations
 - Ciphers are randomly generated on page load. Refresh to get new encryptions.
 - This is a minimal single-file app for demonstration. You can extend it with persistent progress, better UX for mapping conflicts, and improved styling.
-
-License
-MIT
