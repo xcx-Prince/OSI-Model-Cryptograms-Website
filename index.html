@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OSI Model Cryptogram – Puzzle Baron Style</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>OSI Model Cryptogram</h1>
+    <p>Seven-level cryptogram challenge — unlock layers from Physical → Application.</p>
+  </header>
+
+  <main>
+    <aside id="levels">
+      <!-- Level buttons go here -->
+    </aside>
+
+    <section id="puzzle-area">
+      <div id="puzzle-header">
+        <h2 id="layer-title">Level</h2>
+        <div id="controls">
+          <button id="reset-btn">Reset</button>
+          <button id="hint-btn">Hint</button>
+          <button id="check-btn">Check Answer</button>
+        </div>
+      </div>
+
+      <div id="puzzle-container">
+        <div id="grid"></div>
+        <div id="sidepanel">
+          <div id="frequency">
+            <h3>Encrypted Letter Frequency</h3>
+            <div id="freq-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <small>Styled after Puzzle Baron cryptograms. Auto-fill updates all matching letters.</small>
+  </footer>
+
+  <!-- Modal for correct answer display -->
+  <div id="modal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-body">
+    <div id="modal-content" role="document">
+        <button id="modal-close" aria-label="Close dialog">✕</button>
+        <div id="modal-success" class="modal-success hidden" aria-hidden="true">
+          <div class="check-icon" aria-hidden="true">✔</div>
+          <h3 id="modal-title">Correct!</h3>
+        </div>
+        <p id="modal-body"></p>
+        <div id="modal-actions">
+          <div id="modal-puzzle-list" aria-label="Other puzzles" role="list"></div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Congratulations modal -->
+  <div id="congrats-modal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="congrats-title">
+    <div id="congrats-content" role="document">
+        <div class="congrats-icon" aria-hidden="true">🎉</div>
+        <h2 id="congrats-title">All Solved — Congratulations!</h2>
+        <p>You've solved every OSI layer cryptogram.</p>
+        <div class="congrats-actions">
+          <button id="restart-all">Restart All</button>
+          <button id="congrats-close">Close</button>
+        </div>
+    </div>
+    <!-- confetti canvas -->
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+  </div>
+
+  <div id="feedback" class="hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

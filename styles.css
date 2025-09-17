@@ -1,0 +1,168 @@
+:root{
+  --bg: #0f1724;
+  --card: #0b1220;
+  --text: #eef2ff;
+  --muted: #9aa4b2;
+  --gap: 8px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:Inter,Segoe UI,Arial,sans-serif; background:linear-gradient(180deg,#071126 0%, #0f1724 100%); color:var(--text);
+}
+body{
+  margin:0; font-family:Inter,Segoe UI,Arial,sans-serif; background:linear-gradient(180deg,#071126 0%, #0f1724 100%); color:var(--text);box-sizing:border-box;
+}
+header{padding:20px;text-align:center}
+main{display:flex;gap:16px;padding:12px}
+aside#levels{width:180px;padding:12px}
+#levels{width:18%;min-width:140px;padding:1rem}
+aside#levels button{display:block;width:100%;margin-bottom:8px;padding:10px;border-radius:6px;border:0;cursor:pointer;font-weight:600}
+section#puzzle-area{flex:1;padding:12px}
+#puzzle-area{flex:1;padding:1rem}
+#puzzle-header{display:flex;justify-content:space-between;align-items:center}
+#puzzle-container{display:flex;gap:16px;margin-top:12px}
+#puzzle-container{display:flex;gap:1rem;margin-top:0.75rem}
+#grid{flex:1;background:var(--card);padding:16px;border-radius:8px;min-height:220px}
+#grid{flex:1;background:var(--card);padding:1rem;border-radius:8px;min-height:220px;max-width:100%}
+#sidepanel{width:280px;background:rgba(255,255,255,0.03);padding:12px;border-radius:8px}
+#sidepanel{width:22%;min-width:160px;background:rgba(255,255,255,0.03);padding:0.75rem;border-radius:8px}
+
+.letter-box{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:44px;height:44px;margin:4px;border-radius:6px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.03);font-weight:700;padding:4px}
+.cipher-letter{font-size:13px;color:var(--muted);margin-bottom:2px}
+.input-letter{font-size:16px;color:var(--text);width:22px;height:22px;border-radius:4px;border:0;text-align:center;background:rgba(0,0,0,0.12);color:var(--text)}
+.non-letter{display:inline-block;padding:6px 4px;margin:3px;color:var(--muted)}
+
+/* Word container: prevent breaking inside a word and add wide gap between words */
+.word{display:inline-block;align-items:center;gap:8px;margin:6px 10px;white-space:nowrap;vertical-align:top}
+
+/* Conflict indicator: when two different ciphertext letters are assigned the same plaintext */
+.letter-box.conflict{outline:2px solid #ff4d4d; box-shadow:0 0 8px rgba(255,77,77,0.12)}
+.freq-item.conflict{border-color:#ff4d4d}
+
+/* small frequency under each letter box */
+.freq-small{font-size:11px;color:var(--muted);margin-top:4px}
+.letter-box{position:relative}
+.letter-box .freq-small{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%)}
+
+/* Modal */
+#modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5)}
+#modal.hidden{display:none}
+#modal-content{background:var(--card);color:var(--text);padding:18px;border-radius:10px;max-width:640px;position:relative}
+#modal.showing{animation:modal-in 260ms cubic-bezier(.2,.9,.2,1);}
+#modal-content:focus{outline:2px solid rgba(255,255,255,0.06);}
+#modal-close{position:absolute;top:8px;right:8px;border:0;background:transparent;color:var(--muted);font-size:16px;cursor:pointer}
+
+/* feedback bubble */
+#feedback{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#fff;padding:10px 14px;border-radius:8px}
+#feedback.hidden{display:none}
+
+#freq-list{display:flex;flex-wrap:wrap;gap:6px}
+.freq-item{display:flex;flex-direction:column;align-items:center;justify-content:center;width:44px;height:44px;background:rgba(255,255,255,0.02);border-radius:6px}
+.freq-item.disabled{opacity:0.35}
+
+/* Layer colors */
+
+/* Define a common accent variable and per-layer palettes */
+.layer-Physical{ --accent: #ff6b6b; --accent-weak: rgba(255,107,107,0.12); --btn-text: #2b0202 }
+.layer-DataLink{ --accent: #ff9f43; --accent-weak: rgba(255,159,67,0.12); --btn-text: #2a1400 }
+.layer-Network{ --accent: #ffd166; --accent-weak: rgba(255,209,102,0.12); --btn-text: #2b2200 }
+.layer-Transport{ --accent: #38d39f; --accent-weak: rgba(56,211,159,0.12); --btn-text: #032214 }
+.layer-Session{ --accent: #4dabf7; --accent-weak: rgba(77,171,247,0.12); --btn-text: #022033 }
+.layer-Presentation{ --accent: #9b6bff; --accent-weak: rgba(155,107,255,0.12); --btn-text: #14002b }
+.layer-Application{ --accent: #c77bff; --accent-weak: rgba(199,123,255,0.12); --btn-text: #22002b }
+
+/* Apply accent to letter boxes and cipher letters when layer class is on the grid container */
+.layer-Physical .letter-box,
+.layer-DataLink .letter-box,
+.layer-Network .letter-box,
+.layer-Transport .letter-box,
+.layer-Session .letter-box,
+.layer-Presentation .letter-box,
+.layer-Application .letter-box{
+  border-color: var(--accent-weak);
+}
+.layer-Physical .cipher-letter,
+.layer-DataLink .cipher-letter,
+.layer-Network .cipher-letter,
+.layer-Transport .cipher-letter,
+.layer-Session .cipher-letter,
+.layer-Presentation .cipher-letter,
+.layer-Application .cipher-letter{
+  color: var(--accent);
+}
+
+/* Frequency items get a small accent border */
+.layer-Physical #freq-list .freq-item,
+.layer-DataLink #freq-list .freq-item,
+.layer-Network #freq-list .freq-item,
+.layer-Transport #freq-list .freq-item,
+.layer-Session #freq-list .freq-item,
+.layer-Presentation #freq-list .freq-item,
+.layer-Application #freq-list .freq-item{
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+/* Level buttons receive background based on their class (they are assigned the same layer class) */
+aside#levels button.layer-Physical{ background: linear-gradient(90deg,var(--accent),#ff9aa2); color:var(--btn-text)}
+aside#levels button.layer-DataLink{ background: linear-gradient(90deg,var(--accent),#ffd0a3); color:var(--btn-text)}
+aside#levels button.layer-Network{ background: linear-gradient(90deg,var(--accent),#ffe79a); color:var(--btn-text)}
+aside#levels button.layer-Transport{ background: linear-gradient(90deg,var(--accent),#b7f7d4); color:var(--btn-text)}
+aside#levels button.layer-Session{ background: linear-gradient(90deg,var(--accent),#a6e1ff); color:var(--btn-text)}
+aside#levels button.layer-Presentation{ background: linear-gradient(90deg,var(--accent),#cfc0ff); color:var(--btn-text)}
+aside#levels button.layer-Application{ background: linear-gradient(90deg,var(--accent),#e6d6ff); color:var(--btn-text)}
+
+/* Slight hover */
+aside#levels button:hover{ transform:translateY(-1px); }
+
+/* Modal puzzle list - style buttons to match the sidebar level buttons */
+#modal-puzzle-list{ display:flex; flex-direction:column; gap:8px; margin-top:12px }
+#modal-puzzle-list [role="listitem"]{ width:100%; }
+#modal-puzzle-list button{ display:block; width:100%; padding:10px; border-radius:6px; border:0; cursor:pointer; font-weight:600; text-align:left; font-family:inherit; font-size:0.95rem; box-shadow:0 2px 8px rgba(0,0,0,0.16); transition:transform 140ms ease, box-shadow 140ms ease; }
+#modal-puzzle-list button:focus{ box-shadow: 0 0 0 3px rgba(100,150,255,0.12); outline: none }
+#modal-puzzle-list button:hover{ transform:translateY(-1px); }
+#modal-puzzle-list button:active{ transform:translateY(0); }
+
+/* Per-layer gradients for modal list buttons (mirror the sidebar styles) */
+#modal-puzzle-list button.layer-Physical{ background: linear-gradient(90deg,var(--accent),#ff9aa2); color:var(--btn-text)}
+#modal-puzzle-list button.layer-DataLink{ background: linear-gradient(90deg,var(--accent),#ffd0a3); color:var(--btn-text)}
+#modal-puzzle-list button.layer-Network{ background: linear-gradient(90deg,var(--accent),#ffe79a); color:var(--btn-text)}
+#modal-puzzle-list button.layer-Transport{ background: linear-gradient(90deg,var(--accent),#b7f7d4); color:var(--btn-text)}
+#modal-puzzle-list button.layer-Session{ background: linear-gradient(90deg,var(--accent),#a6e1ff); color:var(--btn-text)}
+#modal-puzzle-list button.layer-Presentation{ background: linear-gradient(90deg,var(--accent),#cfc0ff); color:var(--btn-text)}
+#modal-puzzle-list button.layer-Application{ background: linear-gradient(90deg,var(--accent),#e6d6ff); color:var(--btn-text)}
+
+/* dynamic accent using data attribute */
+.accent{box-shadow:0 2px 8px rgba(0,0,0,0.4)}
+
+/* small screens */
+@media(max-width:800px){main{flex-direction:column}aside#levels{width:100%}#sidepanel{width:100%}}
+@media(max-width:800px){main{flex-direction:column}#levels{width:100%}#sidepanel{width:100%;order:2}#grid{order:1}}
+
+/* success modal visuals */
+.modal-success{display:flex;align-items:center;gap:12px}
+.modal-success .check-icon{background:#2ecc71;color:white;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.modal-success.hidden{display:none}
+
+/* congrats modal */
+#congrats-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6)}
+#congrats-modal.hidden{display:none}
+#congrats-content{background:var(--card);padding:1.25rem;border-radius:10px;max-width:640px;text-align:center}
+.confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:1200}
+.congrats-icon{font-size:48px;margin-bottom:8px}
+
+/* hint counter near hint button */
+#controls{display:flex;gap:0.5rem;align-items:center}
+#hint-count{font-size:0.9rem;color:var(--muted);margin-left:6px}
+
+/* modal animation */
+@keyframes modal-in{
+  from{opacity:0;transform:scale(.96)}
+  to{opacity:1;transform:scale(1)}
+}
+
+/* Small focus styles for interactive elements */
+
+
+
+
+button:focus, input:focus { box-shadow: 0 0 0 3px rgba(100,150,255,0.12); outline: none }
